@@ -1,103 +1,152 @@
-import Image from "next/image";
+import { ProductCard } from "@/components/ProductCard";
+import { CategoryCard } from "@/components/CategoryCard";
+import { getDeliveryTime } from "@/lib/utils";
+
+const featuredProducts = [
+  {
+    id: "1",
+    name: "Fresh Bananas",
+    price: 49,
+    image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&auto=format&fit=crop&q=60",
+    unit: "6 pcs",
+    discount: 10,
+  },
+  {
+    id: "2",
+    name: "Organic Tomatoes",
+    price: 39,
+    image: "https://images.unsplash.com/photo-1546094098411-e0b9bb7e2de8?w=500&auto=format&fit=crop&q=60",
+    unit: "500g",
+  },
+  {
+    id: "3",
+    name: "Fresh Milk",
+    price: 65,
+    image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500&auto=format&fit=crop&q=60",
+    unit: "1L",
+    discount: 5,
+  },
+  {
+    id: "4",
+    name: "Brown Bread",
+    price: 35,
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=60",
+    unit: "400g",
+  },
+];
+
+const featuredCategories = [
+  {
+    id: "fruits-vegetables",
+    name: "Fruits & Vegetables",
+    description: "Fresh fruits and vegetables delivered to your doorstep",
+    image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=500&auto=format&fit=crop&q=60",
+    itemCount: 150,
+  },
+  {
+    id: "dairy-bread",
+    name: "Dairy & Bread",
+    description: "Fresh dairy products and bakery items",
+    image: "https://images.unsplash.com/photo-1488477181946-6428a848b919?w=500&auto=format&fit=crop&q=60",
+    itemCount: 80,
+  },
+  {
+    id: "beverages",
+    name: "Beverages",
+    description: "Hot and cold beverages for every occasion",
+    image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&auto=format&fit=crop&q=60",
+    itemCount: 120,
+  },
+  {
+    id: "snacks-branded",
+    name: "Snacks & Branded Foods",
+    description: "Your favorite snacks and branded foods",
+    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=60",
+    itemCount: 200,
+  },
+  {
+    id: "cleaning-essentials",
+    name: "Cleaning Essentials",
+    description: "Everything you need for a sparkling clean home",
+    image: "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=500&auto=format&fit=crop&q=60",
+    itemCount: 180,
+  },
+  {
+    id: "kitchen-dining",
+    name: "Kitchen & Dining",
+    description: "Utensils, cookware, and dining essentials",
+    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=500&auto=format&fit=crop&q=60",
+    itemCount: 150,
+  },
+  {
+    id: "bath-body",
+    name: "Bath & Body",
+    description: "Soaps, shampoos, and personal hygiene products",
+    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&auto=format&fit=crop&q=60",
+    itemCount: 120,
+  },
+  {
+    id: "pet-care",
+    name: "Pet Care",
+    description: "Food, treats, and supplies for your pets",
+    image: "https://images.unsplash.com/photo-1583860312259-4386853a70d5?w=500&auto=format&fit=crop&q=60",
+    itemCount: 90,
+  },
+  {
+    id: "baby-care",
+    name: "Baby Care",
+    description: "Everything for your little one",
+    image: "https://images.unsplash.com/photo-1595205451713-df6f06268b44?w=500&auto=format&fit=crop&q=60",
+    itemCount: 110,
+  },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+    <div className="container mx-auto px-4 py-8">
+      {/* Categories Section */}
+      <section className="mb-12">
+        <div className="mb-6 flex items-center justify-between border-b pb-4">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-gray-900">Shop by Category</h2>
+            <p className="text-sm text-gray-600">Browse through our wide range of categories</p>
+          </div>
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/categories"
+            className="rounded-full bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            View all categories →
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-9 lg:grid-cols-18">
+          {featuredCategories.map((category) => (
+            <CategoryCard key={category.id} {...category} />
+          ))}
+        </div>
+      </section>
+
+      {/* Featured Products Section */}
+      <section>
+        <div className="mb-6 flex items-center justify-between border-b pb-4">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-gray-900">Featured Products</h2>
+            <p className="text-sm text-gray-600">Handpicked products for you</p>
+          </div>
+          <a
+            href="/products"
+            className="rounded-full bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors"
+          >
+            View all products →
+          </a>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
+          {featuredProducts.map((product) => (
+            <div key={product.id} className="transform transition-transform hover:scale-105">
+              <ProductCard {...product} />
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
